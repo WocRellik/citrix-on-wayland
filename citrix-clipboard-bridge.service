@@ -1,0 +1,16 @@
+# systemd user unit for citrix-clipboard-bridge.py
+# Installed by install.sh into ~/.config/systemd/user/
+[Unit]
+Description=Bridge Wayland clipboard text to X11 for Citrix Workspace
+PartOf=graphical-session.target
+After=graphical-session.target
+# Only useful in a Wayland session; in X11 Citrix sees the clipboard directly.
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+ExecStart=%h/.local/bin/citrix-clipboard-bridge
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target
